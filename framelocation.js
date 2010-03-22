@@ -5,6 +5,9 @@
   //      of http://my.cheap.host/~blah/b.html, this should be "http://my.cheap.host/~blah".
   var frameRoot = "http://localhost/framelocation/framed";
   
+  // Set this to the domain of the framing page, e.g. http://snazzydomain.com/
+  var framesetDomain = "http://localhost/";
+  
   // This should be the 'name' attribute of the frame that's loading the framed site.
   var frameName = 'site';
   
@@ -15,16 +18,22 @@
       if (specifiedPath !== '') {
         window[frameName].location = frameRoot + specifiedPath;
       }
-
+      
+      window.addEventListener('message', function (e) {
+        // Quick sanity check:
+        if (e.data[0] === '#') {
+          window.location.hash = e.data;
+        }
+      }, false);
     // In child frames:
     } else {
       var relMatch = new RegExp('^' + frameRoot + '(.*)$', 'i');
       var relPath  = window.location.toString().match(relMatch)[1];
       if (parent.location.hash.substr(1) !== relPath) {
-        parent.location.hash = '#' + relPath;
+        parent.window.postMessage('#' + relPath, framesetDomain);
       }
     }
-  };
+  }
 
   // Nothing below here is specific to the framelocation code. Ignoring it
   // is probably for the best.
@@ -42,7 +51,7 @@
 
     // do stuff
     frameLocationSetup();
-  };
+  }
 
   /* for Mozilla/Opera9 */
   if (document.addEventListener) {

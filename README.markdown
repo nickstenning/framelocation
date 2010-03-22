@@ -5,8 +5,9 @@ framelocation.js is a tiny script with no external dependencies that makes it po
 Say your website lives at http://my.cheap.host/~user/, but you also own http://snazzydomain.com/. 
 
 1. Edit framelocation.js and update frameRoot to be "http://my.cheap.host/~user" (NB: no trailing slash).
-2. Put your edited version of framelocation.js somewhere web-accessible.
-3. Add `<script src="/path/to/framelocation.js"></script>` to the bottom of each framed page's `<body>` tag.
+2. Update framesetDomain to be "http://snazzydomain.com".
+3. Put your edited version of framelocation.js somewhere web-accessible.
+4. Add `<script src="/path/to/framelocation.js"></script>` to the bottom of each framed page's `<body>` tag.
   
 At this point, when you visit a page on your site through a frame at http://snazzydomain.com/, the hash part of the URL will update to reflect your location.
 
